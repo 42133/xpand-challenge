@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.xpand.challenge.dto.MovieDTO;
 import com.xpand.challenge.service.MovieService;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +30,13 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getMovies(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ResponseEntity<?> getMovies(@RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "10") int size,
+                                       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         if(date != null){
             return ResponseEntity.ok().body(movieService.getMoviesByDate(date));
         }
-        return ResponseEntity.ok().body(movieService.getMovies());
+        return ResponseEntity.ok().body(movieService.getMovies(PageRequest.of(page, size)));
     }
 
     @GetMapping("/{id}")

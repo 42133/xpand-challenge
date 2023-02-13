@@ -10,8 +10,12 @@ import com.xpand.challenge.dto.MovieDTOMapper;
 import com.xpand.challenge.model.Movie;
 import com.xpand.challenge.repository.MovieRepository;
 import com.xpand.challenge.service.MovieService;
+import com.xpand.challenge.utils.pagination.PageWrapper;
 import com.xpand.challenge.validator.Validator;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,8 +42,10 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public List<IdentifiableMovieDTO> getMovies() {
-        return movieRepository.findAll().stream().map(MovieDTOMapper::toMovieDTO).collect(Collectors.toList());
+    public PageWrapper<IdentifiableMovieDTO> getMovies(Pageable pageable) {
+        return new PageWrapper<>(
+                movieRepository.findAll(pageable)
+                        .map(MovieDTOMapper::toMovieDTO));
     }
 
     @Override

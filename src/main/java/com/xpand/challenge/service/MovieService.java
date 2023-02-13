@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.xpand.challenge.dto.IdentifiableMovieDTO;
 import com.xpand.challenge.dto.MovieDTO;
+import com.xpand.challenge.utils.pagination.PageWrapper;
+import org.springframework.data.domain.Pageable;
 
 public interface MovieService {
     
@@ -12,7 +14,7 @@ public interface MovieService {
 
     IdentifiableMovieDTO getMovie(Long id);
 
-    List<IdentifiableMovieDTO> getMovies();
+    PageWrapper<IdentifiableMovieDTO> getMovies(Pageable pageable);
 
     List<IdentifiableMovieDTO> getMoviesByDate(LocalDate date);
 
