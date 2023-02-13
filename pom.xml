@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.xpand</groupId>
 	<artifactId>challenge</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>challenge</name>
 	<description>Xpand-IT Challenge</description>
 	<properties>
