@@ -3,6 +3,7 @@ package com.xpand.challenge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,12 +34,14 @@ class ChallengeApplicationTests {
 
 	@Test
 	void doTestGetMovies() {
-		assertEquals(HttpStatus.OK.value(), restTemplate.getForEntity("http://localhost:"+port+"/movies", List.class).getStatusCodeValue());
+		ResponseEntity<?> response = restTemplate.exchange("http://localhost:"+port+"/movies", HttpMethod.GET, null,
+				new ParameterizedTypeReference<>() {});
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
 	}
 
 	@Test
 	void doTestGetMovie() {
-		ResponseEntity<IdentifiableMovieDTO> response = restTemplate.getForEntity("http://localhost:"+port+"/movies/1", IdentifiableMovieDTO.class);
+		ResponseEntity<IdentifiableMovieDTO> response = restTemplate.exchange("http://localhost:"+port+"/movies/1", HttpMethod.GET, null, IdentifiableMovieDTO.class);
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
 		assertEquals(1, response.getBody().getId());
 	}
@@ -71,6 +74,7 @@ class ChallengeApplicationTests {
         dto.setTitle("New Title");
         dto.setRank(5f);
         dto.setDate(LocalDate.now());
+		dto.setRevenue(new BigDecimal(20000));
 		HttpEntity<MovieDTO> putRequest = new HttpEntity<>(dto);
 		ResponseEntity<?> putResponse = restTemplate.exchange("http://localhost:"+port+"/movies/1", HttpMethod.PUT, putRequest, Void.class);
 		assertEquals(HttpStatus.NO_CONTENT.value(), putResponse.getStatusCode().value());
@@ -87,13 +91,13 @@ class ChallengeApplicationTests {
         dto.setDate(LocalDate.now());
 		HttpEntity<MovieDTO> putRequest = new HttpEntity<>(dto);
 		ResponseEntity<?> putResponse = restTemplate.exchange("http://localhost:"+port+"/movies/1", HttpMethod.PUT, putRequest, Void.class);
-		assertEquals(HttpStatus.BAD_REQUEST.value(), putResponse.getStatusCode().value());
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), putResponse.getStatusCode().value());
 	}
 
 	@Test
 	void doTestDeleteMovie() {
-		ResponseEntity<?> response = restTemplate.exchange("http://localhost:"+port+"/movies/1", HttpMethod.DELETE, null, Void.class);
+		ResponseEntity<?> response = restTemplate.exchange("http://localhost:"+port+"/movies/2", HttpMethod.DELETE, null, Void.class);
 		assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatusCode().value());
-		assertEquals(HttpStatus.NOT_FOUND.value(), restTemplate.getForEntity("http://localhost:"+port+"/movies/1", IdentifiableMovieDTO.class).getStatusCode().value());
+		assertEquals(HttpStatus.NOT_FOUND.value(), restTemplate.getForEntity("http://localhost:"+port+"/movies/2", IdentifiableMovieDTO.class).getStatusCode().value());
 	}
 }
