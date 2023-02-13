@@ -1,16 +1,15 @@
 package com.xpand.challenge.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "movie")
@@ -33,6 +32,10 @@ public class Movie {
 
     @Column(name = "revenue")
     private BigDecimal revenue;
+
+    @ManyToMany(mappedBy = "movies")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Actor> actors;
 
     public Long getId() {
         return id;
@@ -74,4 +77,12 @@ public class Movie {
         this.revenue = revenue;
     }
 
+    @JsonIgnore
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }
 }

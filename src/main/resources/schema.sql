@@ -11,3 +11,12 @@ INSERT INTO MOVIE (title, date, rank, revenue) VALUES ('Spider-Man: No Way Home'
 INSERT INTO MOVIE (title, date, rank, revenue) VALUES ('Game of Thrones', '2011-11-18', 9.2, 12500000);
 INSERT INTO MOVIE (title, date, rank, revenue) VALUES ('Almost Genius', '2015-02-28', 1.8, 80000);
 INSERT INTO MOVIE (title, date, rank, revenue) VALUES ('Deep Water 2', '2022-03-18', 4.4, 980000);
+
+INSERT INTO ACTOR(name, birth_date, gender) VALUES ('Tom Cruise', '1962-07-13', 'Male');
+INSERT INTO ACTOR(name, birth_date, gender) VALUES ('Sandra Bullock', '1964-07-26','Female');
+INSERT INTO ACTOR(name, birth_date, gender) VALUES ('Alba Batista', '1997-07-10', 'Female');
+INSERT INTO ACTOR(name, birth_date, gender) VALUES ('Diogo Morgado', '1981-01-17','Male');
+
+INSERT INTO MOVIE_ACTOR(movie_id, actor_id) VALUES (1,1);
+INSERT INTO MOVIE_ACTOR(movie_id, actor_id) VALUES (3,2);
+INSERT INTO MOVIE_ACTOR(movie_id, actor_id) VALUES (3,4);
